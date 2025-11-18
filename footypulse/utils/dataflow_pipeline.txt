@@ -1,0 +1,20 @@
+(1) Get fixtures for league + season
+        |
+        v
+(2) Extract player IDs from lineups
+        |
+        v
+(3) Get player stats for each player
+        |
+        v
+(4) Compute:
+        - Form rating
+        - xG over/underperformance
+        - Consistency index
+        - Trend score
+        |
+        v
+(5) Build ranked DataFrame
+        |
+        v
+(6) Generate daily digest (HTML)
