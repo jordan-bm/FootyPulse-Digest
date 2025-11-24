@@ -1,4 +1,5 @@
 requests
 pandas
 jinja2
+sendgrid
 python-dotenv
