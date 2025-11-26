@@ -5,7 +5,7 @@ from footypulse.api.football_api import get_league_fixtures
 from footypulse.analytics.fixtures_processing import fixtures_to_df
 from footypulse.analytics.player_extraction import extract_player_ids
 from footypulse.analytics.engine import compute_trending_players
-from footypulse.digest.render import render_digest
+from footypulse.digest.templates.render import render_digest
 import footypulse.api.football_api as api
 
 def main():

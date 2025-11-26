@@ -1,7 +1,7 @@
 def trend_score(form, delta, consistency):
     """
     Combine metrics into a single trend score.
-    Tunable weights (initial guess):
+    Tunable weights:
       - form: 50%
       - delta (goals - xG): 30%
       - consistency (lower is better): 20% (negative weight)

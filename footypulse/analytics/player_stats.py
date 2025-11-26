@@ -26,7 +26,7 @@ def extract_player_stats(raw_json):
     league_block = s.get("league", {}) or {}
     team_block = s.get("team", {}) or {}
 
-    # rating in API-Football is typically a string, like "7.4"
+    # rating in API-Football is typically a string
     rating_raw = games.get("rating")
     try:
         rating = float(rating_raw) if rating_raw is not None else 0.0

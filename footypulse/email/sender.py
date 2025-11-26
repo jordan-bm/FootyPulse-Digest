@@ -4,7 +4,7 @@ from sendgrid.helpers.mail import Mail
 
 
 def send_digest_email(to_email, subject, html_content):
-    # Sends HTML digest email using SendGrid.
+    # Sends HTML digest email using SendGrid
 
     sg_api_key = os.getenv("SENDGRID_API_KEY")
     from_email = os.getenv("FOOTYPULSE_SENDER_EMAIL")

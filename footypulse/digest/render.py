@@ -1,20 +1,16 @@
 import os
 from jinja2 import Environment, FileSystemLoader
 
-def render_digest(players, output_path="digest_output.html"):
-    # Render the daily digest HTML using Jinja2
-    # players: DataFrame or list of dicts
-    
-    # DataFrame -> list of dicts
-    if hasattr(players, "to_dict"):
-        players = players.to_dict(orient="records")
+TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), "templates")
 
-    env = Environment(loader=FileSystemLoader(os.path.dirname(__file__)))
-    template = env.get_template("template.html")
+env = Environment(loader=FileSystemLoader(TEMPLATE_DIR))
 
+def render_digest(players, output_file="digest_output.html"):
+    template = env.get_template("digest.html")
     html = template.render(players=players)
 
+    output_path = os.path.join(TEMPLATE_DIR, output_file)
     with open(output_path, "w", encoding="utf-8") as f:
         f.write(html)
 
-    return output_path
+    return html  # return actual digest, not filename
