@@ -5,27 +5,118 @@
   <title>FootyPulse Digest</title>
 
   <style>
-    body { font-family: Arial, sans-serif; background:#f7f7f7; margin:0; padding:0; }
-    .header { background:#1e90ff; color:white; padding:24px; text-align:center; font-size:26px; font-weight:600; }
-    .summary-table { width:90%; margin:auto; background:white; border-collapse: collapse; margin-top:26px; }
-    .summary-table th, .summary-table td { padding:10px; border-bottom:1px solid #e0e0e0; text-align:center; }
-    .section-title { text-align:center; font-size:22px; margin-top:32px; font-weight:600; }
-
-    /* Player Cards */
-    .cards { display:flex; flex-wrap:wrap; justify-content:center; margin-top:26px; gap:18px; }
-    .card {
-      width:260px; background:white; padding:18px; border-radius:12px;
-      box-shadow:0 3px 8px rgba(0,0,0,0.12); text-align:center;
+    body { 
+      font-family: Arial, sans-serif; 
+      background:#f7f7f7; 
+      margin:0; 
+      padding:0; 
     }
-    .card img { width:90px; height:90px; border-radius:50%; object-fit:cover; margin-bottom:10px; }
-    .team-logo { width:40px; margin-top:10px; }
 
-    .stat { font-size:15px; margin-top:6px; }
-    .trend-up { color:#22bb33; font-weight:600; }
-    .trend-flat { color:#999; font-weight:600; }
-    .trend-down { color:#bb2222; font-weight:600; }
+    .header { 
+      background:#1e90ff; 
+      color:white; 
+      padding:24px; 
+      text-align:center; 
+      font-size:26px; 
+      font-weight:600; 
+    }
 
-    .note { font-style:italic; color:#333; font-size:14px; margin-top:8px; }
+    .section-title { 
+      text-align:center; 
+      font-size:22px; 
+      margin-top:32px; 
+      font-weight:600; 
+    }
+
+    .summary-table { 
+      width:90%; 
+      margin:auto; 
+      background:white; 
+      border-collapse: collapse; 
+      margin-top:26px; 
+      border-radius:10px;
+      overflow:hidden;
+    }
+
+    .summary-table th { 
+      background:#f0f4ff; 
+      padding:12px; 
+    }
+
+    .summary-table td { 
+      padding:10px; 
+      border-bottom:1px solid #e0e0e0; 
+      text-align:center; 
+    }
+
+    /* Player cards grid */
+    .cards { 
+      display:flex; 
+      flex-wrap:wrap; 
+      justify-content:center; 
+      gap:20px; 
+      margin-top:26px; 
+      padding-bottom:40px;
+    }
+
+    .card {
+      width:260px; 
+      background:white; 
+      padding:18px; 
+      border-radius:12px;
+      box-shadow:0 3px 8px rgba(0,0,0,0.12); 
+      text-align:center;
+      transition:0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow:0 6px 14px rgba(0,0,0,0.18);
+    }
+
+    .card img { 
+      width:90px; 
+      height:90px; 
+      border-radius:50%; 
+      object-fit:cover; 
+      margin-bottom:10px; 
+    }
+
+    .team-logo { 
+      width:40px; 
+      margin-top:10px; 
+    }
+
+    .stat { 
+      font-size:15px; 
+      margin-top:6px; 
+    }
+
+    /* Trend score badge colors */
+    .trend-badge {
+      font-weight:600;
+      padding:3px 8px;
+      border-radius:6px;
+      font-size:14px;
+      display:inline-block;
+      margin-top:4px;
+    }
+
+    .trend-high { background:#d4f8d4; color:#1f8b1f; }
+    .trend-mid { background:#fff5c2; color:#ad9100; }
+    .trend-low { background:#ffd6d6; color:#b00000; }
+
+    /* Notes styling */
+    .note { 
+      font-style:italic; 
+      color:#444; 
+      font-size:14px; 
+      margin-top:12px; 
+      background:#f4f4f4; 
+      padding:8px 10px;
+      border-radius:8px;
+    }
+
   </style>
 </head>
 
@@ -33,13 +124,20 @@
 
 <div class="header">FootyPulse Weekly Digest — Top Trending Players</div>
 
-<!-- TABLE SUMMARY SECTION -->
 {% if players %}
-<h2 class="section-title">Summary Table (Top 10)</h2>
+
+<!-- SUMMARY TABLE -->
+<h2 class="section-title">Summary Table — Top 10 Players</h2>
+
 <table class="summary-table">
   <tr>
-    <th>Player</th><th>Team</th><th>Form</th><th>Trend</th><th>Consistency</th>
+    <th>Player</th>
+    <th>Team</th>
+    <th>Form</th>
+    <th>Trend Score</th>
+    <th>Consistency</th>
   </tr>
+
   {% for p in players[:10] %}
   <tr>
     <td>{{ p.name }}</td>
@@ -51,26 +149,38 @@
   {% endfor %}
 </table>
 
-<!-- PLAYER CARD SECTION -->
+
+<!-- PLAYER SPOTLIGHT CARDS -->
 <h2 class="section-title">Player Spotlight — Performance Cards</h2>
+
 <div class="cards">
   {% for p in players[:10] %}
   <div class="card">
-    <img src="{{ p.photo }}" alt="Player photo">
+    
+    <img src="{{ p.photo }}" alt="{{ p.name }}">
+
     <h3>{{ p.name }}</h3>
     <img class="team-logo" src="{{ p.logo }}" alt="Club logo">
 
     <div class="stat">Form: <b>{{ "%.2f"|format(p.form) }}</b></div>
+
+    <!-- Trend badge -->
     <div class="stat">
-      Trend:
-      {% if p.trend_score > 7 %} <span class="trend-up">⬆ {{ "%.2f"|format(p.trend_score) }}</span>
-      {% elif p.trend_score > 5 %} <span class="trend-flat">→ {{ "%.2f"|format(p.trend_score) }}</span>
-      {% else %} <span class="trend-down">⬇ {{ "%.2f"|format(p.trend_score) }}</span>
+      {% if p.trend_score >= 7.5 %}
+        <span class="trend-badge trend-high">⬆ {{ "%.2f"|format(p.trend_score) }}</span>
+      {% elif p.trend_score >= 5.5 %}
+        <span class="trend-badge trend-mid">→ {{ "%.2f"|format(p.trend_score) }}</span>
+      {% else %}
+        <span class="trend-badge trend-low">⬇ {{ "%.2f"|format(p.trend_score) }}</span>
       {% endif %}
     </div>
+
     <div class="stat">Consistency: <b>{{ "%.2f"|format(p.consistency) }}</b></div>
 
+    {% if p.note %}
     <p class="note">{{ p.note }}</p>
+    {% endif %}
+
   </div>
   {% endfor %}
 </div>

@@ -34,7 +34,7 @@ def main():
 
     print("Sending digest email...")
     status = send_digest_email(
-        to_email="rockypuddlez@gmail.com", # Receiving email, changeable
+        to_email=os.getenv("FOOTYPULSE_RECEIVER_EMAIL", "test@example.com"), # Pulls email from .env
         subject="FootyPulse Weekly Digest",
         html_content=html
     )
